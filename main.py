@@ -1,15 +1,15 @@
 import praw
-import os
+from decouple import config
 import csv
 import re
 import time
 from keep_alive import keep_alive
 
 reddit = praw.Reddit(
-    client_id=os.getenv('client_id'),
-    client_secret=os.getenv('client_secret'),
-    username=os.getenv('username'),
-    password=os.getenv('password'),
+    client_id=config('client_id'),
+    client_secret=config('client_secret'),
+    username=config('username'),
+    password=config('password'),
     user_agent="<ReplyCommentBot1.0>"
 )
 
@@ -42,6 +42,7 @@ class FunnyRedditBot:
     def find_match(self, comment):
         for i, dictionary in enumerate(self.response_list):
             if dictionary['phrase'] in clean_string(comment.body):
+                print(comment.body)
                 self.make_replay(i, comment)
 
 
